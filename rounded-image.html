@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Phaser Image Display</title>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; margin: 0 auto; }
+  </style>
+</head>
+<body>
+
+<script>
+  const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    backgroundColor: '#2d2d2d',
+    scene: {
+      preload: preload,
+      create: create
+    }
+  };
+
+  const game = new Phaser.Game(config);
+
+  function preload () {
+    this.load.image('myImage', 'https://sm.ign.com/t/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.600.jpg');
+  }
+
+  function create () {
+    const maskShape = this.make.graphics({ x: 0, y: 0, add: false });
+    const radius = 150;
+    maskShape.fillStyle(0xffffff);
+    maskShape.beginPath();
+    maskShape.arc(400, 300, radius, 0, Math.PI * 2);
+    maskShape.fillPath();
+
+    const image = this.add.image(400, 300, 'myImage');
+    image.setOrigin(0.5);
+    image.setScale(0.5);
+
+    const mask = maskShape.createGeometryMask();
+    image.setMask(mask);
+  }
+</script>
+
+</body>
+</html>
